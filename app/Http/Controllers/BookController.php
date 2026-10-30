@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class BookController extends Controller
 {
@@ -21,8 +22,18 @@ class BookController extends Controller
 
     public function store(Request $request)
     {
-        Book::create($request->only(['title', 'author', 'status']));
+        Book::create($this->validated($request));
 
         return redirect()->route('books.index')->with('success', 'Book added.');
+    }
+
+    // One set of rules, used for both adding and editing a book
+    private function validated(Request $request): array
+    {
+        return $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'author' => ['required', 'string', 'max:255'],
+            'status' => ['required', Rule::in(array_keys(Book::STATUSES))],
+        ]);
     }
 }
