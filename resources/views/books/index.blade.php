@@ -3,7 +3,7 @@
 @section('title', 'My books')
 
 @section('content')
-
+    <p><a class="btn" href="{{ route('books.create') }}">Add book</a></p>
 
     @if ($books->isEmpty())
         <p>No books yet.</p>
