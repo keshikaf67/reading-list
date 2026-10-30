@@ -8,11 +8,20 @@ use Illuminate\Validation\Rule;
 
 class BookController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $books = Book::latest()->get();
+        // Accept only one of the three real statuses; anything else means "All"
+        $status = $request->query('status');
+        if (! in_array($status, array_keys(Book::STATUSES), true)) {
+            $status = null;
+        }
 
-        return view('books.index', ['books' => $books]);
+        $books = Book::query()
+            ->when($status, fn ($query) => $query->where('status', $status))
+            ->latest()
+            ->get();
+
+        return view('books.index', ['books' => $books, 'status' => $status]);
     }
 
     public function create()
