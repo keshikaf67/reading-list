@@ -39,6 +39,13 @@ class BookController extends Controller
         return redirect()->route('books.index')->with('success', 'Book updated.');
     }
 
+    public function destroy(Book $book)
+    {
+        $book->delete();
+
+        return redirect()->route('books.index')->with('success', 'Book deleted.');
+    }
+
     // One set of rules, used for both adding and editing a book
     private function validated(Request $request): array
     {
