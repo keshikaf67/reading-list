@@ -14,7 +14,7 @@
                     <th>Title</th>
                     <th>Author</th>
                     <th>Status</th>
-
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -23,7 +23,9 @@
                         <td>{{ $book->title }}</td>
                         <td>{{ $book->author }}</td>
                         <td>{{ $book->statusLabel() }}</td>
-
+                        <td>
+                            <a href="{{ route('books.edit', $book) }}">Edit</a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

@@ -27,6 +27,18 @@ class BookController extends Controller
         return redirect()->route('books.index')->with('success', 'Book added.');
     }
 
+    public function edit(Book $book)
+    {
+        return view('books.edit', ['book' => $book]);
+    }
+
+    public function update(Request $request, Book $book)
+    {
+        $book->update($this->validated($request));
+
+        return redirect()->route('books.index')->with('success', 'Book updated.');
+    }
+
     // One set of rules, used for both adding and editing a book
     private function validated(Request $request): array
     {
